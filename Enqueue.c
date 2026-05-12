@@ -1,3 +1,4 @@
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #define  maxsize 10
@@ -65,3 +66,4 @@ int main()
 
     return 0;
 }
+*/
