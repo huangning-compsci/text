@@ -1,3 +1,4 @@
+/*
 #include <stdio.h>
 #include <stdlib.h>
 typedef struct stacknode
@@ -55,3 +56,4 @@ else
 printf("%d",student->top->data);
 return 0;
 }
+*/
