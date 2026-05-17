@@ -1,3 +1,4 @@
+/*
 #include <stdio.h>
 #include <stdlib.h>
 typedef struct queuenode
@@ -39,3 +40,4 @@ int out(Linkqueue *q,int *e)
     free(p);
     return 1;
 }
+    */
