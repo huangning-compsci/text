@@ -1,4 +1,4 @@
-/*
+
 #include <stdio.h>
 #include <stdlib.h>
 #define  maxsize 10
@@ -37,7 +37,7 @@ int out(SqQueue *q, int *e)
 return 1;
 
 } 
-
+/*
 int main()
 {
     SqQueue q;
