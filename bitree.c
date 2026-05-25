@@ -195,7 +195,7 @@ int InitGraphList(GraphList *T)
 
 //深度优先遍历（邻接矩阵）
 
- int visited[9];        //这么写会浪费空间，要学习怎么使用bool
+ int visited[9];        //!这么写会浪费空间，要学习怎么使用bool
  void DFSMatrix(Matrix T,int i)
  {
     int j;                                  
@@ -247,4 +247,75 @@ void DFSLTraverse(GraphList T)
     for(int i=0;i<T.lenNode;i++)
         if(!visited[i])             //每一个顶点如果进入过就会被跳过，代码简洁可读
             DFS(T,i);    
+}
+
+//广度优先算法-矩阵
+typedef struct 
+{
+    int data;
+    int front;
+    int rear;
+}Queue;
+
+void BFSM(Matrix T)
+{   
+    Queue p;
+    InitQueue (&p);
+    for(int i=0;i<T.Numnode;i++)
+        visited[i]=0;
+    
+    for(int i=0;i<T.Numnode;i++)    //感觉像一个保障，有孤立点才会在循环中再次停留
+        {
+            if(!visited[i])         //与循环配合的条件
+                {
+                    visited[i]=1;       //遇到就要标记，是算法实现的基础
+                    Enqueue(&p,i);  
+                    while(!QueueEmpty(p))   
+                        {
+                            dequeue(&p,&i);     //!这里的i返回值是关键，修改了i
+                            for(int j=0;j<T.Numnode;j++)    //!，使后面的for循环改变了内涵，变成以被弹出顶点为核心了
+                                {
+                                    if(T.matrix[i][j].value=1&&!visited[j])
+                                        {
+                                            Enqueue(&p,j);
+                                            visited[j]=1;
+                                        }
+                                }
+                        }
+                }
+        }    
+}
+
+//广度优先算法-邻接表
+void BFSL(GraphList GL)
+{
+    ListNodeptr p;
+    Queue q;
+    for(int i=0;i<GL.lenNode;i++)
+        visited[i]=0;
+    InitQueue(&q);
+    for(int i=0;i<GL.lenNode;i++)
+        {
+            if(!visited[i])
+                {
+                    visited[i]=1;
+                    Enqueue(&q,i);
+                    while(!QueueEmpty(q))       //没空就一直出
+                        {
+                            dequeue(&q,&i);
+                            p=GL.Gra[i].Firstout;       //!p指向刚弹出的顶点的邻接头指针，用于遍历来让与其相连的下层顶点入队列
+         
+                            while(p)                           //!重点思想，当该顶点没有后续邻接顶点后结束循环
+                //错误示例： for(int j=0;j<GL.lenNode;j++)  遍历顶点个数次，暴力保障连接了很多顶点的极限情况，很浪费时间  
+                                {
+                                    if(!visited[p->index])
+                                        {
+                                            visited[p->index];
+                                            Enqueue(&q,p->index);
+                                        }
+                                    p=p->next;    //换下一个邻接顶点
+                                }
+                        }
+                }
+        }
 }
