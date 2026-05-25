@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #define OK 1;
 #define Big 65550;
+#define MAXVEX 9;
 
 void InitBiTree(BiTree *T)
 {char in;
@@ -189,4 +191,60 @@ int InitGraphList(GraphList *T)
             T->Gra[i].Firstout=p;
         }    
     return 1;
+}
+
+//深度优先遍历（邻接矩阵）
+
+ int visited[9];        //这么写会浪费空间，要学习怎么使用bool
+ void DFSMatrix(Matrix T,int i)
+ {
+    int j;                                  
+    visited[i]=1;               //进入i就标记i
+    for (j=0;j<T.Numnode;j++)       
+        if(T.matrix[i][j].value==1&&!visited[j])
+            DFS(T,j);           //深度优先意味着有就一直往深进入，
+}                               //这个算法递归到当前顶点没有其他未标记顶点可进入就结束
+
+void DFSTraverse(Matrix T)
+{
+    for(int i=0;i<T.Numnode;i++)        //初始化visited为0
+        visited[i]=0;
+    for(int j=0;j<T.Numnode;j++)        //对于每个顶点，未被遍历过就从他开始进行DFS递归
+        if(!visited[j])
+            DFS(T,j);
+}
+
+//深度优先算法（邻接表）
+/*  我的错误思路
+void DFSList(GraphList T,int i)
+{
+    int j;
+    visited[i]=1;
+    for(j=0;j<T.lenNode;j++)
+        if(T.Gra[j].data==1&&!visited[j])
+            DFSList(T,j);
+}
+*/
+
+void DFSList(GraphList T,int i)         //传指针的话可以优化性能
+{
+    ListNodeptr p;                      
+    visited[i]=0;
+    p=T.Gra[i].Firstout->next;     
+    while (p)                            //如果有下一个，
+        {
+            if(!visited[p->index])      //就检查这个是否来过，没来过就进入（进入更深）
+                DFS(T,p->index);
+            p=p->next;                  //来过就选择去链表下一个结点
+        }
+}
+
+
+void DFSLTraverse(GraphList T)
+{
+    for(int i=0;i<T.lenNode;i++)
+        visited[i]=0;
+    for(int i=0;i<T.lenNode;i++)
+        if(!visited[i])             //每一个顶点如果进入过就会被跳过，代码简洁可读
+            DFS(T,i);    
 }
