@@ -251,3 +251,38 @@ void MiNispanTree_prim(Matrix T)
                 }
         }
 }
+
+//克鲁斯卡尔算法（以边为目标来构建）
+int Find(int *parent,int f)
+{
+    while(parent[f]>0)    
+        {
+            f=parent[f];
+        }
+    return f;  
+
+}
+
+typedef struct 
+{
+    int begin;
+    int end;
+    int weight;
+}Edge;
+
+void MinispanTree_Kruskal(GraphList T)            //还未实现将邻接表转换成按权值排列的边表
+{   Edge edges[10];
+    int parent[10];
+    for(int i=0;i<T.lenNode;i++)
+            parent[i]=0;
+    for(int i=0;i<T.lenline;i++)
+        {
+            int n=find(parent,edges[i].begin);
+            int m=find(parent,edges[i].end);
+            if(n!=m)
+                {
+                    parent[n]=m;
+                }
+        }    
+
+}
