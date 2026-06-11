@@ -286,5 +286,30 @@ void MinispanTree_Kruskal(GraphList T)            //还未实现将邻接表转�
         }    
 
 }
-
-
+#define MAXVEX 3
+//最短路径，弗洛伊德算法
+typedef int Patharc[MAXVEX][MAXVEX];
+typedef int ShortPathTable[MAXVEX][MAXVEX];
+void ShortPath_floyd(Matrix G,Patharc *D,ShortPathTable *P)
+{
+    int k,v,w;
+    for(v=0;v<G.Numnode;v++)
+        {
+            for(w=0;w<G.Numnode;w++)
+                {
+                    (*D)[v][w]=G.matrix[v][w].value;
+                    (*P)[v][w]=w;
+                }
+        }
+    for(w=0;w<G.Numnode;w++)
+        for(v=0;v<G.Numnode;v++)
+            for(k=0;k<G.Numnode;k++)
+                    if((*D)[w][v]>(*D)[w][k]+(*D)[k][v])
+                        {
+                            (*D)[w][v]=(*D)[w][k]+(*D)[k][v];
+                            (*P)[w][v]=(*P)[w][k];
+                        }
+            
+                
+    
+}
