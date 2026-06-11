@@ -287,6 +287,8 @@ void MinispanTree_Kruskal(GraphList T)            //还未实现将邻接表转�
 
 }
 #define MAXVEX 3
+#define ERROR 0;
+#define OK 1;
 //最短路径，弗洛伊德算法
 typedef int Patharc[MAXVEX][MAXVEX];
 typedef int ShortPathTable[MAXVEX][MAXVEX];
@@ -309,7 +311,51 @@ void ShortPath_floyd(Matrix G,Patharc *D,ShortPathTable *P)
                             (*D)[w][v]=(*D)[w][k]+(*D)[k][v];
                             (*P)[w][v]=(*P)[w][k];
                         }
-            
-                
-    
+}
+//拓扑排序算法
+typedef struct EdgeNode
+{
+    int adjvex;
+    int weight;
+    struct EdgeNode *next;
+}EdgeNode;
+
+typedef struct
+{
+    int in;
+    int data;
+    EdgeNode *firstEdge;
+}VertexNode,AdjList[MAXVEX];
+
+typedef struct 
+{
+    AdjList adjLsit;
+    int numVertexes,numEdges;
+}graphAdjList1,*GraphAdjList1;
+
+typedef int Status;
+Status TopologicalSort(GraphAdjList1 GL)
+{   int top=0,count=0,gettop,k;
+    EdgeNode *e;
+    int *stack;
+    stack=(int *)malloc(MAXVEX*sizeof(int));
+    for(int i=0;i<GL->numVertexes;i++)
+        if(GL->adjLsit[i].in==0)
+            stack[++top]=i;
+    while(top!=0)
+        {
+            gettop=stack[top--];                
+            count++;
+            printf("%d ",gettop);
+            for(e=GL->adjLsit[gettop].firstEdge;e;e=e->next)
+                {
+                    k=e->adjvex;
+                    if(!--GL->adjLsit[k].in)
+                        stack[++top]=k;
+                }
+        }
+    if(count<GL->numVertexes)
+        return ERROR;
+    else
+        return OK;    
 }
